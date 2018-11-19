@@ -1,0 +1,23 @@
+<p>
+  scanner works!
+</p>
+
+<table class ="table table-sm">
+    <thead>
+      <th>First Name</th>
+      <th>Last Name</th>
+      <th>Company Name</th>
+      <th>Address</th>
+      <th>Phone Number</th>
+    </thead>
+    <ng-container *ngFor="let search of searchHistory  | async">
+      <tr class ="table-dark">
+        <td>{{search.searchType}}</td>
+        <td>{{search.searchText}}</td>
+        <td>{{search.time}}</td>
+      </tr>
+    </ng-container>
+</table>
+
+
+<a routerLink="/history">Go to Search History</a>

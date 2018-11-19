@@ -1,0 +1,14 @@
+<table class ="table table-sm">
+    <thead>
+      <th>Search Type</th>
+      <th>Search Text</th>
+      <th>Date </th>
+    </thead>
+    <ng-container *ngFor="let search of searchHistory  | async">
+      <tr class ="table-dark">
+        <td>{{search.searchType}}</td>
+        <td>{{search.searchText}}</td>
+        <td>{{search.time}}</td>
+      </tr>
+    </ng-container>
+</table>

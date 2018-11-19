@@ -1,0 +1,32 @@
+<div class="form-container">
+  <span class="error" *ngIf="error"> {{error}}</span>
+  
+  <div class="col-md-6">
+      <form [formGroup] ="loginForm" >
+          <h4>Please Login/Signup </h4>
+          <div class="form-group">
+            <label>Email</label>
+            <input class="form-control" formControlName="email">
+            <div class="invalid-feedback" *ngIf="f.email.errors">
+              <div *ngIf="f.email.errors.required"> Email is required</div>
+              <div *ngIf="f.email.errors.email"> Email must be a valid email </div>
+            </div>
+          </div>
+        
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" class="form-control" formControlName="password"/>
+            <div class="invalid-feedback" *ngIf="f.password.errors">
+              <div *ngIf="f.password.errors.required">password is required</div>
+            </div>
+          </div>
+          <div>
+            <a routerLink="/signup">Don't have an Account?</a>
+          </div>
+          
+          <div class = "form-inline float-right">
+
+            <button type="submit" (click)="onLoginEmail()" class="btn btn-primary" style="margin-left: 10px;">Log In</button>
+          </div>
+      </form>
+  </div>
