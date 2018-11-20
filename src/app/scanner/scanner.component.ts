@@ -70,17 +70,38 @@ export class ScannerComponent implements OnInit {
     });
   }
   
-  createContact (){
-    //for (var i=0; i<this.resArr.length; i++){
-    //  console.log (i+" "+this.resArr[i]);
-    //}
 
-    this.contact.companyName = this.resArr[0]+" "+this.resArr[1];
-    var name = this.resArr[3]; 
-    this.contact.firstName = name.split(" ")[0];
-    this.contact.lastName = name.split(" ")[1];
-    this.contact.Address = this.resArr[5];
+
+  notNameWords = ["company","consulting","co","corporation","companies","corp","engineer","software","lawyer","president","ceo","&","construction"];
+  notNameSet =  new Set (this.notNameWords);
+  createContact (){
+    for (var i=0; i<this.resArr.length; i++){
+      console.log(i +" "+this.resArr[i]);
+    }
+
+    let maxLen = 0;
+    let addressIndex = 0;
+
+    for (var i=0; i<this.resArr.length; i++){
+      let currentString = this.resArr[i].toLowerCase();
+      let currentArr =  currentString.split(" ");
+      if (currentArr.length > maxLen){
+        maxLen = currentArr.length;
+        addressIndex = i;
+      }
+      if (/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi.test(currentString)){
+        this.contact.email = currentString.match(/([a-zA-Z0-9._-]+@[a-zA-Z0-9._-]+\.[a-zA-Z0-9._-]+)/gi).toString();
+      } else if (/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g.test(currentString)){
+        this.contact.phone = currentString.match(/^[+]*[(]{0,1}[0-9]{1,3}[)]{0,1}[-\s\./0-9]*$/g).toString();
+      } else if (currentArr.length == 2 || (currentArr.length == 3 && currentArr[1].includes("."))){
+        if (!this.notNameSet.has(currentArr[0]) && !this.notNameSet.has(currentArr[currentArr.length-1])){
+          this.contact.name = currentString;
+        }
+      } 
+    }
+    this.contact.address = this.resArr[addressIndex];
     this.service.saveContact (this.contact);
+    this.contact= new Contact();
   }
 
   ngOnInit() {
@@ -88,7 +109,7 @@ export class ScannerComponent implements OnInit {
   }
 
   filterCondition (contact : Contact){
-    var firstName = contact.firstName;
+    var firstName = contact.name;
     return firstName.toLowerCase().indexOf(this.searchText.toLowerCase()) != -1;
   }
 }

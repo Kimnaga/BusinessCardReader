@@ -1,11 +1,13 @@
 export class Contact {
-    companyName: String;
-    firstName : String;
-    lastName : string;
-    Address : string;
-    Mobile : string;
+    name : string;
+    address : string;
+    phone : string;
+    email : String;
     
     constructor (){
-        
+        this.name = "";
+        this.address ="";
+        this.phone = "";
+        this.email = "";
     }
 }

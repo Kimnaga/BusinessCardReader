@@ -37,10 +37,10 @@ export class ScannerService {
 
   saveContact (contact : Contact){
     this.contactRef.push({
-      company : contact.companyName,
-      firstName : contact.firstName,
-      lastName : contact.lastName,
-      address : contact.Address
+      name : contact.name,
+      address : contact.address,
+      phone : contact.phone,
+      email : contact.email
     });
   }
 
