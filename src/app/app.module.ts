@@ -11,6 +11,7 @@ import { LoginService } from './login/login.service';
 import {AngularFireModule} from 'angularfire2';
 import {AngularFireAuthModule} from 'angularfire2/auth';
 import {AngularFireDatabaseModule} from 'angularfire2/database';
+import {AngularFireStorageModule} from 'angularfire2/storage';
 import {HttpClientModule} from '@angular/common/http';
 import {FormsModule,ReactiveFormsModule} from '@angular/forms';
 
@@ -38,6 +39,7 @@ import { HistoryComponent } from './history/history.component';
     HttpClientModule,
     FormsModule,
     ReactiveFormsModule,
+    AngularFireStorageModule
   ],
   providers: [AuthGuard, LoginService, ScannerService],
   bootstrap: [AppComponent]

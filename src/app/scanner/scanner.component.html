@@ -1,6 +1,15 @@
-<p>
-  scanner works!
-</p>
+<input type="file" (change)= "onSelected($event)">
+<br/>
+<br/>
+<button type ="submit" class="btn btn-info" (click)="onUpload()">Upload</button>
+
+<br/>
+<br/>
+
+<form class="form-inline">
+  <input class="form-control" name="search" placeholder="Search by first name" [(ngModel)]="searchText" style="width:80%;">
+</form>
+<br/>
 
 <table class ="table table-sm">
     <thead>
@@ -8,16 +17,17 @@
       <th>Last Name</th>
       <th>Company Name</th>
       <th>Address</th>
-      <th>Phone Number</th>
+      
     </thead>
-    <ng-container *ngFor="let search of searchHistory  | async">
-      <tr class ="table-dark">
-        <td>{{search.searchType}}</td>
-        <td>{{search.searchText}}</td>
-        <td>{{search.time}}</td>
+    <ng-container *ngFor="let contact of contacts | async">
+      <tr class ="table-dark" *ngIf= "filterCondition(contact)">
+        <td>{{contact.firstName}}</td>
+        <td>{{contact.lastName}}</td>
+        <td>{{contact.company}}</td>
+        <td>{{contact.address}}</td>
       </tr>
     </ng-container>
 </table>
 
 
-<a routerLink="/history">Go to Search History</a>
+<a *ngIf=admin|async routerLink="/history">Go to Search History</a>

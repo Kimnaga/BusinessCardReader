@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  googleVisionApiKey : "AIzaSyARtH_aKQgaijdy2VklD4bT5KMnSDRPaI8",
   firebaseConfig : {
     apiKey: "AIzaSyCCniBtxoYtUf_2bXTK0xvmvUGAofzJhJo",
     authDomain: "businesscardscanner-222221.firebaseapp.com",

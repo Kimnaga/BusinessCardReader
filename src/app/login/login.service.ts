@@ -3,7 +3,8 @@ import {AngularFireAuth} from 'angularfire2/auth';
 import {AngularFireDatabase} from 'angularfire2/database';
 import * as firebase from 'firebase/app';
 import {Router} from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of} from 'rxjs';
+import {map, switchMap} from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -13,12 +14,16 @@ export class LoginService {
   signIn : boolean;
   private currentUser : firebase.User = null;
   private authState : Observable <firebase.User>;
+  userId : string;
+  admin : Observable<boolean>;
 
   constructor(private db : AngularFireDatabase, private af: AngularFireAuth, private router:Router) { 
     this.authState = this.af.authState;
     this.authState.subscribe(user =>{
       if (user){
         this.currentUser = user;
+        this.userId = this.currentUser.uid;
+        this.admin = this.db.object<boolean>('/admins/'+this.userId).valueChanges();
       } else {
         this.currentUser = null;
       }
@@ -69,8 +74,6 @@ export class LoginService {
         this.error = err;
       })
     }
-
-
     
     signOut(){
       this.af.auth.signOut();
