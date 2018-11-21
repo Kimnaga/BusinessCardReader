@@ -4,6 +4,7 @@ import {ScannerService} from './scanner.service';
 import {Observable} from 'rxjs';
 import {Contact} from '../Model/Contact';
 import {LoginService} from '../login/login.service';
+import {HistoryService} from '../history/history.service';
 
 
 @Component({
@@ -19,10 +20,11 @@ export class ScannerComponent implements OnInit {
   contacts : Observable<any[]>;
   searchText : string ="";
   admin : Observable <boolean>;
+  userId :string;
 
-  constructor(private afStorage : AngularFireStorage, private service : ScannerService, private loginService : LoginService) {
-    
+  constructor(private afStorage : AngularFireStorage, private service : ScannerService, private loginService : LoginService, private historyService: HistoryService) {
     this.admin = loginService.admin;
+    this.userId = loginService.userId;
     console.log (this.admin);
    }
 
@@ -75,9 +77,10 @@ export class ScannerComponent implements OnInit {
   notNameWords = ["company","consulting","co","corporation","companies","corp","engineer","software","lawyer","president","ceo","&","construction"];
   notNameSet =  new Set (this.notNameWords);
   createContact (){
+    /*
     for (var i=0; i<this.resArr.length; i++){
       console.log(i +" "+this.resArr[i]);
-    }
+    }*/
 
     let maxLen = 0;
     let addressIndex = 0;
@@ -100,6 +103,7 @@ export class ScannerComponent implements OnInit {
       } 
     }
     this.contact.address = this.resArr[addressIndex];
+    this.historyService.setHistory(this.userId, this.contact.name);
     this.service.saveContact (this.contact);
     this.contact= new Contact();
   }
